@@ -2,7 +2,7 @@ import fs from 'fs';
 
 // 1. Read the given file lipsum.txt
 
-export function getData(cb1, cb2, cb3, cb4) {
+export function getData() {
 
     fs.readFile('lipsum.txt', 'utf8', (err, data) => {
         if (err) {
