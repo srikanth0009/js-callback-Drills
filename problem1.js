@@ -4,7 +4,7 @@ import path from 'path';
 
 //Create a directory of random JSON files
 
-export function createDirectory(cb1,cb2){
+export function createDirectory(cb){
 
     const dirPath = path.join(process.cwd(),'jsonFiles');
 
@@ -13,61 +13,52 @@ export function createDirectory(cb1,cb2){
         if(err){
             console.log(err);
         }
-    }
-    );
-    console.log("Directory created");
-    cb1(cb2);
+        console.log("directory created");
+        cb();
+    });
 }
 
 
-export function createFiles(cb2){
+export function createFiles(cb){
 
     let path = '';
 
     for(let i=1;i<=3;i++){
 
-        if(i==1){
-            path = 'jsonFiles/file1.json';
-        }else if(i==2){
-            path = 'jsonFiles/file2.json';
-        }else{
-            path = 'jsonFiles/file3.json';
-        }
+        path = `jsonFiles/file${i}.json`;
 
         fs.writeFile(path,'This is a json file',(err)=>{
             if(err){
                 console.log(err);
             }
-        });
-        console.log(`The file ${i} is created`);
-    }
 
-    cb2();
+            if(i==3){
+                 cb(); 
+            }
+        }); 
+    }
 }
 
 
-
-export function deleteFiles(){
+export function deleteFiles(cb){
 
     let path = '';
 
     for(let i=1;i<=3;i++){
-
-        if(i==1){
-            path = 'jsonFiles/file1.json';
-        }else if(i==2){
-            path = 'jsonFiles/file2.json';
-        }else{
-            path = 'jsonFiles/file3.json';
-        }
+        
+        path = `jsonFiles/file${i}.json`;
 
         fs.unlink(path, (err)=>{
             if(err){
                 console.log(err);
             }
+
+            if(i==3){
+                cb();
+            }
         });
-        console.log(`The file ${i} is deleted`);
     }
+   
 
 }
 
