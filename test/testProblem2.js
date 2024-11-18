@@ -11,5 +11,6 @@ fs.writeFile('lipsum.txt', hii, (err) => {
     }
 });
 
-getData(converttoUpperCase, converttoLowerCase, toSort, deleteFiles);
+//getData(converttoUpperCase, converttoLowerCase, toSort, deleteFiles);
+getData();
 

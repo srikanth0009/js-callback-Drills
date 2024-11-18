@@ -9,15 +9,25 @@ export function getData(cb1, cb2, cb3, cb4) {
             console.log(err);
         }
         console.log(data);
-        cb1(data, cb2, cb3, cb4);
+
+        converttoUpperCase(data,(result1)=>{
+            converttoLowerCase(result1,(result2)=>{
+                toSort(result2, (result3)=>{
+                    deleteFiles(result3,(finalResult)=>{
+                        console.log(finalResult);
+                    });
+                });
+            });
+        });
     });
+
+    
 }
 
-export function converttoUpperCase(data, cb2, cb3, cb4) {
+export function converttoUpperCase(data,cb) {
+
 
     let modifiedData = data.toUpperCase();
-
-    //console.log(modifiedData);
 
     fs.writeFile('uppercase.txt', modifiedData, (err) => {
         if (err) {
@@ -38,19 +48,17 @@ export function converttoUpperCase(data, cb2, cb3, cb4) {
         if (err) {
             console.log(err);
         }
-        console.log(data);
-        cb2(data, cb3, cb4);
+        
+        cb(data);
     });
 }
 
 
+    export function converttoLowerCase(data,cb) {
 
-export function converttoLowerCase(data, cb3, cb4) {
 
     let lowercaseData = data.toLowerCase().split(' ');
     let newString = lowercaseData.join("\n");
-
-    console.log(newString);
 
     fs.writeFile('lowercase.txt', newString, (err) => {
         if (err) {
@@ -71,17 +79,15 @@ export function converttoLowerCase(data, cb3, cb4) {
         if (err) {
             console.log(err);
         }
-        console.log(data);
-        cb3(data, cb4);
+
+        cb(data);
     });
 }
 
 
-export function toSort(data, cb4) {
+    export function toSort(data,cb) {
 
     let sortedData = data.split('\n').sort().join('\n');
-    // console.log(sortedData)
-
 
     fs.writeFile('sorteddata.txt', sortedData, (err) => {
         if (err) {
@@ -102,18 +108,14 @@ export function toSort(data, cb4) {
         if (err) {
             console.log(err);
         }
-        console.log(data);
-        cb4(data);
+
+        cb(data);
     });
 }
 
+    export function deleteFiles(data,cb) {
 
-
-export function deleteFiles(data) {
-
-    console.log(data);
     const array = data.split(' ');
-    console.log(array);
 
     for (let x of array) {
         fs.unlink(x, (err) => {
@@ -123,6 +125,7 @@ export function deleteFiles(data) {
             console.log(`files deleted ${x}`);
         });
     }
+     cb("successful");
 }
 
 
