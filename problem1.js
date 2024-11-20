@@ -58,7 +58,5 @@ export function deleteFiles(cb){
             }
         });
     }
-   
-
 }
 

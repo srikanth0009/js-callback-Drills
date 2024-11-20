@@ -10,21 +10,20 @@ export function getData() {
         }
         console.log(data);
 
-        converttoUpperCase(data,(result1)=>{
-            converttoLowerCase(result1,(result2)=>{
-                toSort(result2, (result3)=>{
-                    deleteFiles(result3,(finalResult)=>{
-                        console.log(finalResult);
-                    });
+        //await converttoLowerCase(result);
+
+         converttoUpperCase(data, (result1) => {
+            converttoLowerCase(result1, (result2) => {
+                toSort(result2, (result3) => {
+                    deleteFiles(result3);
                 });
             });
         });
     });
 
-    
 }
 
-export function converttoUpperCase(data,cb) {
+export function converttoUpperCase(data, cb) {
 
 
     let modifiedData = data.toUpperCase();
@@ -34,27 +33,26 @@ export function converttoUpperCase(data,cb) {
             console.log(err);
         }
         console.log(" uppercase.txt file created");
-    });
 
+        fs.appendFile('filenames.txt', 'uppercase.txt ', (err) => {
+            if (err) {
+                console.log(err);
+            }
+            console.log("uppercase.txt file appended");
 
-    fs.appendFile('filenames.txt', 'uppercase.txt ', (err) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log("uppercase.txt file appended");
-    });
-
-    fs.readFile('uppercase.txt', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-        }
+            fs.readFile('uppercase.txt', 'utf8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                }
         
-        cb(data);
+                cb(data);
+            });
+        });
     });
 }
 
 
-    export function converttoLowerCase(data,cb) {
+export function converttoLowerCase(data, cb) {
 
 
     let lowercaseData = data.toLowerCase().split(' ');
@@ -65,27 +63,27 @@ export function converttoUpperCase(data,cb) {
             console.log(err);
         }
         console.log(" lowercase.txt file created");
+
+        fs.appendFile('filenames.txt', 'lowercase.txt ', (err) => {
+            if (err) {
+                console.log(err);
+            }
+            console.log(" lowercase.txt file appended");
+
+            fs.readFile("lowercase.txt", 'utf8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                }
+        
+                cb(data);
+            });
+        });
     });
-
-
-    fs.appendFile('filenames.txt', 'lowercase.txt ', (err) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log(" lowercase.txt file appended");
-    });
-
-    fs.readFile("lowercase.txt", 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-        }
-
-        cb(data);
-    });
+    
 }
 
 
-    export function toSort(data,cb) {
+export function toSort(data, cb) {
 
     let sortedData = data.split('\n').sort().join('\n');
 
@@ -94,38 +92,36 @@ export function converttoUpperCase(data,cb) {
             console.log(err);
         }
         console.log(" sorteddata.txt file created");
-    });
 
+        fs.appendFile('filenames.txt', 'sorteddata.txt', (err) => {
+            if (err) {
+                console.log(err);
+            }
+            console.log(" sorteddata.txt file appended");
 
-   fs.appendFile('filenames.txt', 'sorteddata.txt', (err) => {
-    if (err) {
-        console.log(err);
-    }
-    console.log(" sorteddata.txt file appended");
-});
-
-    fs.readFile("filenames.txt", 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-        }
-
-        cb(data);
+            fs.readFile("filenames.txt", 'utf8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                }
+        
+                cb(data);
+            });
+        });
     });
 }
 
-    export function deleteFiles(data,cb) {
+export function deleteFiles(data, cb) {
 
     const array = data.split(' ');
-
+    
     for (let x of array) {
         fs.unlink(x, (err) => {
             if (err) {
                 console.log(err);
             }
             console.log(`files deleted ${x}`);
-        });
-    }
-     cb("successful");
+        });  
+    } 
 }
 
 
